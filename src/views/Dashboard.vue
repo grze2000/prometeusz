@@ -8,7 +8,7 @@
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
             <v-toolbar-title>Prometeusz</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn icon>
+            <v-btn icon @click="logout">
                 <v-icon>power_settings_new</v-icon>
             </v-btn>
         </v-app-bar>
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     name: 'Dashboard',
     data() {
@@ -32,6 +34,19 @@ export default {
             drawer: true,
             selected: null
         };
+    },
+    created() {
+        const token = localStorage.getItem('token');
+        if(!token) {
+            this.$router.push('/');
+        }
+        axios.defaults.headers.common['Authorization'] = token;
+    },
+    methods: {
+        logout() {
+            localStorage.removeItem('token');
+            this.$router.push('/');
+        }
     }
 }
 </script>

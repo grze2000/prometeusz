@@ -6,7 +6,7 @@
                     <v-toolbar class="blue" flat dark>
                         <v-toolbar-title>Logowanie</v-toolbar-title>
                     </v-toolbar>
-                    <v-card-text>
+                    <v-card-text @keyup.enter="login">
                         <v-form ref="loginForm" v-model="valid">
                             <v-text-field
                                 v-model="formData.username"
@@ -16,7 +16,7 @@
                                 required>
                             </v-text-field>
                             <v-text-field
-                                v-model="formData.passowrd"
+                                v-model="formData.password"
                                 label="Hasło"
                                 type="password"
                                 prepend-icon="lock"
@@ -55,13 +55,21 @@ export default {
             loading: false
         }
     },
+    crated() {
+        const token = localStorage('token');
+        if(token) {
+            this.$router.push('/dashboard');
+        }
+    },
     methods: {
         login() {
             this.$refs.loginForm.validate();
             this.loading = true;
             if(this.valid) {
                 axios.post(`${process.env.VUE_APP_API_URL}/login`, this.formData).then(response => {
-                    console.log(response);
+                    localStorage.setItem('token', response.data.token);
+                    this.loading = false;
+                    this.$router.push('/dashboard');
                     
                 }).catch(err => {
                     this.snackbar.message = typeof err.response.data.message !== 'undefined' ? err.response.data.message : err.message;

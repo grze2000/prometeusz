@@ -42,6 +42,11 @@ export default {
     },
     methods: {
         upload() {
+            if(this.file == null) {
+                //to-do snackbar
+                console.log('Wybierz plik');
+                return;
+            }
             this.loading = true;
             let formData = new FormData();
             formData.append('file', this.file);

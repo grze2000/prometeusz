@@ -13,6 +13,11 @@
             </v-btn>
         </v-app-bar>
         <v-navigation-drawer app clipped v-model="drawer">
+            <v-list-item to="/app/dashboard">
+                <v-list-item-content>
+                    <v-list-item-title>Podsumowanie</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
             <v-list-item>
                 <v-list-item-content>
                     <v-list-item-title>Baza danych</v-list-item-title>
@@ -46,7 +51,7 @@
 import axios from 'axios'
 
 export default {
-    name: 'Dashboard',
+    name: 'Home',
     data() {
         return {
             drawer: true,

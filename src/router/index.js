@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Login from '../views/Login.vue';
-import Dashboard from '../views/Dashboard.vue';
+import Home from '../views/Home.vue';
 import appRoutes from './app';
 
 Vue.use(VueRouter);
@@ -15,7 +15,7 @@ const routes = [
     {
         path: '/app',
         name: 'App',
-        component: Dashboard,
+        component: Home,
         children: appRoutes
     }
 ]

@@ -14,7 +14,7 @@ const PersonSchema = new Schema({
         required: true
     },
     birthday: Date,
-    hometown: String,
+    maritalStatus: String,
     address: {
         city: String,
         postalCode: String,
@@ -24,12 +24,22 @@ const PersonSchema = new Schema({
             type: String,
             default: 'Polska'
         },
-        maritalStatus: String
+        hometown: String
     },
     facebokID: String,
     website: String,
     phone: Number,
-    email: String
+    email: String,
+    avatar: String,
+    photos: [{
+        type: Schema.Types.ObjectId, ref: 'Photo'
+    }],
+    faces: [{
+        url: String,
+        originalImage: {
+            type: Schema.Types.ObjectId, ref: 'Photo'
+        }
+    }]
 });
 
 module.exports = mongoose.model('Person', PersonSchema, 'people');

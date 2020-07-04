@@ -72,7 +72,7 @@ export default {
                     this.$router.push('/dashboard');
                     
                 }).catch(err => {
-                    this.snackbar.message = typeof err.response.data.message !== 'undefined' ? err.response.data.message : err.message;
+                    this.snackbar.message = typeof err.response !== 'undefined' ? err.response.data.message : err.message;
                     this.snackbar.show = true;
                     this.loading = false;
                 });

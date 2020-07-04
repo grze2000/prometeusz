@@ -6,21 +6,39 @@
             class="blue"
             dark>
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-            <v-toolbar-title>Prometeusz</v-toolbar-title>
+            <v-toolbar-title>Prometeusz <span class="caption ml-1">v.{{ version }}</span></v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn icon @click="logout">
                 <v-icon>power_settings_new</v-icon>
             </v-btn>
         </v-app-bar>
         <v-navigation-drawer app clipped v-model="drawer">
-            <v-list-item-group v-model="selected">
-                <v-list-item>
-                    <v-list-item-content>
-                        <v-list-item-title>Baza danych</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list-item-group>
+            <v-list-item>
+                <v-list-item-content>
+                    <v-list-item-title>Baza danych</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item dense to="/app/search">
+                <v-list-item-content>
+                    <v-list-item-title>Wyszukaj w bazie</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item dense to="/app/add">
+                <v-list-item-content>
+                    <v-list-item-title>Dodaj osobę</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item dense to="/app/add-photo">
+                <v-list-item-content>
+                    <v-list-item-title>Dodaj zdjęcie</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
         </v-navigation-drawer>
+        <v-content>
+            <v-card class="pa-3 ma-3">
+                <router-view></router-view>
+            </v-card>
+        </v-content>
     </div>
 </template>
 
@@ -32,7 +50,8 @@ export default {
     data() {
         return {
             drawer: true,
-            selected: null
+            selected: null,
+            version: process.env.VERSION
         };
     },
     created() {

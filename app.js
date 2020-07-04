@@ -17,7 +17,7 @@ mongoose.connect(process.env.MONGODB_URI, {useUnifiedTopology: true, useNewUrlPa
     console.log(`Error: ${err.message}`);
 });
 
-app.use(express.static('files'));
+app.use('/static', express.static('files'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
@@ -31,6 +31,8 @@ app.get('/people', passport.authenticate('jwt', {session: false}), personControl
 app.get('/people/:id', passport.authenticate('jwt', {session: false}), personController.getPerson);
 
 app.post('/upload', passport.authenticate('jwt', {session: false}), photoController.uploadPhoto);
+app.get('/photos2', passport.authenticate('jwt', {session: false}), photoController.getPhotos);
+app.delete('/photos/:id', passport.authenticate('jwt', {session: false}), photoController.removePhoto);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on ${port}`));

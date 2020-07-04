@@ -26,3 +26,36 @@ exports.uploadPhoto = (req, res) => {
         });
     });
 }
+
+exports.getPhotos = (req, res) => {
+    const options = {};
+    if(req.query.analyzed && (req.query.analyzed == 'true' || req.query.analyzed == 'false')) {
+        options.analyzed = req.query.analyzed;
+    }
+    Photo.find(options, (err, photos) => {
+        if(err) {
+            return res.status(500).json({message: 'Błąd bazy danych: '+err.message});
+        }
+        res.json(photos);
+    });
+}
+
+exports.removePhoto = (req, res) => {
+    Photo.findOne({_id: req.params.id}, (err, photo) => {
+        if(err) {
+            return res.status(500).json({message: 'Błąd bazy danych: '+err.message});
+        }
+        if(photo) {
+            Photo.deleteOne({_id: req.params.id}, err => {
+                if(err) {
+                    return res.status(500).json({message: 'Nie można usunąć zdjęcia: '+err.message});
+                }
+                fs.unlink('./files/'+photo.url, () => {
+                    return res.sendStatus(200);
+                });
+            });
+        } else {
+            res.status(400).json({message: 'Nieodnaleziono zdjęcia!'});
+        }
+    });
+}

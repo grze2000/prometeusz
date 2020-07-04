@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <v-card class="pa-3 ma-3">
         <v-row justify="center" align="center">
         <v-col cols="12" md="3">
             <v-file-input
@@ -25,7 +25,7 @@
             color="red"
             height="7"
         ></v-progress-linear>
-    </div>
+    </v-card>
 </template>
 
 <script>

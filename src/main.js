@@ -39,6 +39,10 @@ Vue.filter('age', function(date) {
     return `${age} ${text}`;
 });
 
+Vue.filter('api', function(url) {
+    return process.env.VUE_APP_API_URL+url;
+});
+
 new Vue({
     router,
     vuetify,

@@ -40,9 +40,7 @@
             </v-list-item>
         </v-navigation-drawer>
         <v-content>
-            <v-card class="pa-3 ma-3">
-                <router-view></router-view>
-            </v-card>
+            <router-view></router-view>
         </v-content>
     </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <v-card class="pa-3 ma-3">
         <v-form>
             <v-text-field
                 label="Wyszukaj"
@@ -22,7 +22,7 @@
                 </v-card-subtitle>
             </v-card>
         </div>
-    </div>
+    </v-card>
 </template>
 
 <script>

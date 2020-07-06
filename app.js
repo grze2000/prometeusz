@@ -10,6 +10,7 @@ const cors = require('cors');
 const loginController = require('./controllers/loginController');
 const personController = require('./controllers/personController');
 const photoController = require('./controllers/photoController');
+const faceController = require('./controllers/faceController');
 
 mongoose.connect(process.env.MONGODB_URI, {useUnifiedTopology: true, useNewUrlParser: true}).then(() => {
     console.log('Conected to database');
@@ -17,7 +18,7 @@ mongoose.connect(process.env.MONGODB_URI, {useUnifiedTopology: true, useNewUrlPa
     console.log(`Error: ${err.message}`);
 });
 
-app.use('/static', express.static('files'));
+app.use('/files', express.static('files'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
@@ -33,6 +34,10 @@ app.get('/people/:id', passport.authenticate('jwt', {session: false}), personCon
 app.post('/upload', passport.authenticate('jwt', {session: false}), photoController.uploadPhoto);
 app.get('/photos2', passport.authenticate('jwt', {session: false}), photoController.getPhotos);
 app.delete('/photos/:id', passport.authenticate('jwt', {session: false}), photoController.removePhoto);
+
+app.post('/analyze/:id', photoController.analyzePhoto);
+
+app.get('/faces', passport.authenticate('jwt', {session: false}), faceController.getFaces);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on ${port}`));

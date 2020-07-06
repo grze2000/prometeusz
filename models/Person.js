@@ -32,13 +32,12 @@ const PersonSchema = new Schema({
     email: String,
     avatar: String,
     photos: [{
-        type: Schema.Types.ObjectId, ref: 'Photo'
+        type: Schema.Types.ObjectId,
+        ref: 'Photo'
     }],
     faces: [{
-        url: String,
-        originalImage: {
-            type: Schema.Types.ObjectId, ref: 'Photo'
-        }
+        type: Schema.Types.ObjectId,
+        ref: 'Face'
     }]
 });
 

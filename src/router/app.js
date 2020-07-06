@@ -27,6 +27,6 @@ export default [
     },
     {
         path: '*',
-        redirect: '/app/search'
+        redirect: '/app/dashboard'
     }
 ]

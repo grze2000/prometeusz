@@ -6,6 +6,10 @@
                 Nieprzeanalizowane zdjęcie
             </v-card-text>
         </v-card>
+        <v-card v-if="unclassifiedFaces > 0" class="ma-3" width="250" to="/app/classify-faces">
+            <v-card-title class="text-center" style="word-break: normal">Niesklasyfikowane twarze</v-card-title>
+            <v-card-text>Liczba zdjęć oczekujących na klasyfikację: {{ unclassifiedFaces }}</v-card-text>
+        </v-card>
     </div>
 </template>
 
@@ -16,7 +20,8 @@ export default {
     name: 'Dashboard',
     data() {
         return {
-            photos: []
+            photos: [],
+            unclassifiedFaces: 0
         }
     },
     created() {        
@@ -26,6 +31,11 @@ export default {
         }).catch(err => {
             console.log(err.message);
             
+        });
+        axios.get(`${process.env.VUE_APP_API_URL}/faces?unclassified=true`).then(faces => {
+            this.unclassifiedFaces = faces.data.length;
+        }).catch(err => {
+            console.log(err.message);
         });
     }
 }

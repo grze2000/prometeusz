@@ -59,6 +59,7 @@ export default {
                 }
             }).then(() => {
                 this.loading = false;
+                this.file = null;
                 console.log('ok');
                 
             }).catch(err => {

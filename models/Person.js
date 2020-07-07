@@ -30,7 +30,6 @@ const PersonSchema = new Schema({
     website: String,
     phone: Number,
     email: String,
-    avatar: String,
     photos: [{
         type: Schema.Types.ObjectId,
         ref: 'Photo'

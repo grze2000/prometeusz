@@ -39,6 +39,7 @@ app.delete('/photos/:id', passport.authenticate('jwt', {session: false}), photoC
 app.post('/analyze/:id', photoController.analyzePhoto);
 
 app.get('/faces', passport.authenticate('jwt', {session: false}), faceController.getFaces);
+app.post('/faces/:id', passport.authenticate('jwt', {session: false}), faceController.classifyFace)
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on ${port}`));

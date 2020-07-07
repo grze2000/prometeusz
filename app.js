@@ -31,8 +31,9 @@ app.post('/people', passport.authenticate('jwt', {session: false}), personContro
 app.get('/people', passport.authenticate('jwt', {session: false}), personController.getPeople);
 app.get('/people/:id', passport.authenticate('jwt', {session: false}), personController.getPerson);
 
-app.post('/upload', passport.authenticate('jwt', {session: false}), photoController.uploadPhoto);
 app.get('/photos2', passport.authenticate('jwt', {session: false}), photoController.getPhotos);
+app.get('/photos/:id', passport.authenticate('jwt', {session: false}), photoController.getPhoto);
+app.post('/upload', passport.authenticate('jwt', {session: false}), photoController.uploadPhoto);
 app.delete('/photos/:id', passport.authenticate('jwt', {session: false}), photoController.removePhoto);
 
 app.post('/analyze/:id', photoController.analyzePhoto);

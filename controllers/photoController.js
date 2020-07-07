@@ -29,6 +29,19 @@ exports.uploadPhoto = (req, res) => {
     });
 }
 
+exports.getPhoto = (req, res) => {
+    Photo.findOne({_id: req.params.id}, (err, photo) => {
+        if(err) {
+            return res.status(500).json({message: 'Błąd bazy danych: '+err.message});
+        }
+        if(photo) {
+            res.json(photo);
+        } else {
+            res.status(400).json({message: 'Nieodnaleziono zdjęcia'});
+        }
+    });
+}
+
 exports.getPhotos = (req, res) => {
     let options = {};
     if(req.query.analyzed && (req.query.analyzed == 'true' || req.query.analyzed == 'false')) {
@@ -77,7 +90,7 @@ exports.analyzePhoto = (req, res) => {
         }
         const image = cv.imread('.'+photo.url);
         const imageGray = image.bgrToGray();
-        const classifier = new cv.CascadeClassifier(cv.HAAR_FRONTALFACE_ALT2);
+        const classifier = new cv.CascadeClassifier(cv.HAAR_FRONTALFACE_ALT);
         const faces = classifier.detectMultiScale(imageGray).objects;
         let faceObjects = [];
         for(face of faces) {
@@ -96,6 +109,12 @@ exports.analyzePhoto = (req, res) => {
             });
             faceObjects.push(faceObj);
         }
-        res.status(200).json(faceObjects);
+        photo.analyzed = true;
+        photo.save(err => {
+            if(err) {
+                console.log(err);
+            }
+            res.status(200).json(faceObjects);
+        });
     });
 }

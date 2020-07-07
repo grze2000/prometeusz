@@ -12,7 +12,7 @@
             <v-card v-for="result in results" :key="result._id" class="mx-1" :to="'/app/profile/'+result._id">
                 <v-card-title class="d-flex flex-column">
                     <v-avatar :color="result | color" size="64">
-                        <img :src="result.avatar" alt="" v-if="typeof result.avatar !== 'undefined'">
+                        <img :src="result.faces[0].url | api" alt="" v-if="result.faces.length">
                         <span v-else class="white--text">{{ result | initials }}</span>
                     </v-avatar>
                     <div>{{ result.firstname+' '+result.lastname }}</div>

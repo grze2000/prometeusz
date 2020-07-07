@@ -3,7 +3,7 @@
         <v-row>
             <v-col cols="12" md="4" class="d-flex justify-center align-center">
                 <v-avatar :color="profile | color" size="128">
-                    <img :src="profile.avatar" alt="" v-if="typeof profile.avatar !== 'undefined'">
+                    <img :src="profile.faces[0].url | api" alt="" v-if="profile.faces.length">
                     <span v-else class="white--text headline">{{ profile | initials }}</span>
                 </v-avatar>
             </v-col>

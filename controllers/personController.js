@@ -1,7 +1,7 @@
 const Person = require('../models/Person');
 
 exports.getPeople = (req, res) => {
-    Person.find({}, (err, people) => {
+    Person.find({}).populate('photos').populate('faces').exec((err, people) => {
         if(err) {
             res.status(500).json({message: 'Błąd bazy danych: '+err.message});
         } else {
@@ -11,7 +11,7 @@ exports.getPeople = (req, res) => {
 }
 
 exports.getPerson = (req, res) => {
-    Person.findOne({_id: req.params.id}, (err, person) => {
+    Person.findOne({_id: req.params.id}).populate('photos').populate('faces').exec((err, person) => {
         if(err) {
             res.status(500).json({message: 'Błąd bazy danych: '+err.message});
         } else {

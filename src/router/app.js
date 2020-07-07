@@ -3,7 +3,8 @@ import AddPerson from '../components/AddPerson.vue';
 import Profile from '../components/Profile.vue';
 import AddPhoto from '../components/AddPhoto.vue';
 import Dashboard from '../components/Dashboard.vue';
-import PhotoView from '../components/PhotoView';
+import PhotoView from '../components/PhotoView.vue';
+import ClassifyFaces from '../components/ClassifyFaces.vue';
 
 export default [
     {
@@ -29,6 +30,10 @@ export default [
     {
         path: 'photo/:id',
         component: PhotoView
+    },
+    {
+        path: 'classify-faces',
+        component: ClassifyFaces
     },
     {
         path: '*',

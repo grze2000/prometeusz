@@ -8,6 +8,19 @@ Vue.config.productionTip = false
 
 Vue.use(VueRandomColor);
 
+const ageString = date => {
+    const age = (new Date).getFullYear()-(new Date(date)).getFullYear();
+    let text = '';
+    if(age === 1) {
+        text = 'rok';
+    } else if([2, 3, 4].includes(age % 10) && Math.floor(age / 10) % 10 !== 1) {
+        text = 'lata';
+    } else {
+        text = 'lat';
+    }
+    return `${age} ${text}`;
+}
+
 Vue.filter('color', function(x) {
     let string = x.firstname+x.lastname;
     let hash = 0;
@@ -27,20 +40,17 @@ Vue.filter('capitalize', function(str) {
 });
 
 Vue.filter('age', function(date) {
-    const age = (new Date).getFullYear()-(new Date(date)).getFullYear();
-    let text = '';
-    if(age === 1) {
-        text = 'rok';
-    } else if([2, 3, 4].includes(age % 10) && Math.floor(age / 10) % 10 !== 1) {
-        text = 'lata';
-    } else {
-        text = 'lat';
-    }
-    return `${age} ${text}`;
+    return ageString(date);
 });
 
 Vue.filter('api', function(url) {
     return process.env.VUE_APP_API_URL+url;
+});
+
+Vue.filter('list', function(people) {
+    return people.map(person => {
+        return person.firstname+' '+person.lastname+' ('+ageString(person.birthday)+')';
+    });
 });
 
 new Vue({

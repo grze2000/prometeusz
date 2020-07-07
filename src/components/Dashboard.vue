@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex">
+    <div class="d-flex pa-3">
         <v-card v-for="photo in photos" :key="photo._id" width="200" class="ma-3" :to="'/app/photo/'+photo._id">
             <v-img :src="photo.url | api" height="100"></v-img>
             <v-card-text>

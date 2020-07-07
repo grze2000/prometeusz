@@ -3,6 +3,7 @@ import AddPerson from '../components/AddPerson.vue';
 import Profile from '../components/Profile.vue';
 import AddPhoto from '../components/AddPhoto.vue';
 import Dashboard from '../components/Dashboard.vue';
+import PhotoView from '../components/PhotoView';
 
 export default [
     {
@@ -24,6 +25,10 @@ export default [
     {
         path: 'add-photo',
         component: AddPhoto
+    },
+    {
+        path: 'photo/:id',
+        component: PhotoView
     },
     {
         path: '*',

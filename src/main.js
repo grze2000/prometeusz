@@ -9,7 +9,7 @@ Vue.config.productionTip = false
 Vue.use(VueRandomColor);
 
 const ageString = date => {
-    const age = (new Date).getFullYear()-(new Date(date)).getFullYear();
+    const age = Math.floor((new Date - new Date(date)) / (1000 * 3600 * 24 * 365.25));
     let text = '';
     if(age === 1) {
         text = 'rok';
@@ -49,7 +49,7 @@ Vue.filter('api', function(url) {
 
 Vue.filter('list', function(people) {
     return people.map(person => {
-        return person.firstname+' '+person.lastname+' ('+ageString(person.birthday)+')';
+        return {value: person._id, text: person.firstname+' '+person.lastname+' ('+ageString(person.birthday)+')'};
     });
 });
 

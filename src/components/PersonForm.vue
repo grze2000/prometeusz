@@ -219,9 +219,8 @@ export default {
         submit() {
             console.log(this.form);
             // to-do: form validation
-            axios.post(`${process.env.VUE_APP_API_URL}/people`, this.form).then(() => {
-                // to-do: reset form
-                console.log('OK');
+            axios.post(`${process.env.VUE_APP_API_URL}/people`, this.form).then(person => {
+                this.$router.push('/app/profile/'+person._id);
             }).catch(err => {
                 // to-do snackbar
                 console.error(err);

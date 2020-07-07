@@ -25,7 +25,7 @@ export default {
         }
     },
     created() {        
-        axios.get(`${process.env.VUE_APP_API_URL}/photos2`).then(photos => {
+        axios.get(`${process.env.VUE_APP_API_URL}/photos2?analyzed=false`).then(photos => {
             this.photos = photos.data;
             
         }).catch(err => {

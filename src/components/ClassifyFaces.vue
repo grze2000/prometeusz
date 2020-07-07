@@ -11,12 +11,13 @@
                     <v-autocomplete
                         :items="people | list"
                         label="Zindentyfikuj osobę"
+                        v-model="face.person"
                     ></v-autocomplete>
                 </v-form>
             </v-card-text>
             <v-card-actions class="d-flex justify-center">
-                <v-btn class="error">Odrzuć</v-btn>
-                <v-btn class="success">Zapisz</v-btn>
+                <v-btn class="error" @click="submit(face._id, face.person, 0)">Odrzuć</v-btn>
+                <v-btn class="success" @click="submit(face._id, face.person, 1)">Zapisz</v-btn>
             </v-card-actions>
         </v-card>
     </div>
@@ -30,7 +31,8 @@ export default {
     data() {
         return {
             faces: [],
-            people: []
+            people: [],
+            test: null
         }
     },
     created() {
@@ -44,6 +46,24 @@ export default {
         })).catch(err => {
             console.log(err);
         });
+    },
+    methods: {
+        submit(faceID, personID, status) {
+            if((status === 1 && typeof personID !== 'undefined') || status === 0) {
+                axios.post(`${process.env.VUE_APP_API_URL}/faces/${faceID}`, {
+                    faceID: faceID,
+                    personID: personID,
+                    status: status
+                }).then(() => {
+                    const index = this.faces.findIndex(x => x._id == faceID);
+                    this.faces.splice(index, 1);
+                }).catch(err => {
+                    console.log(err.response.data.message);
+                });
+            } else {
+                console.log('Nie wybrano osoby');
+            }
+        }
     }
 }
 </script>

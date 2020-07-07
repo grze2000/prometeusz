@@ -39,7 +39,7 @@
                 </v-list-item-content>
             </v-list-item>
         </v-navigation-drawer>
-        <v-content>
+        <v-content class="fill-height">
             <router-view></router-view>
         </v-content>
     </div>

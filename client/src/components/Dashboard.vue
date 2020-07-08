@@ -1,5 +1,5 @@
 <template>
-    <div :class="containerClasses" style="height: 100%">
+    <div :class="containerClasses">
         <v-card v-for="photo in photos" :key="photo._id" width="200" class="ma-3" :to="'/app/photo/'+photo._id">
             <v-img :src="photo.url | api" height="100"></v-img>
             <v-card-text>
@@ -42,7 +42,7 @@ export default {
     computed: {
         containerClasses: function() {
             return {
-                'd-flex pa-3 fill-height': true,
+                'd-flex pa-3 fill-height align-start flex-wrap': true,
                 'justify-center align-center': !this.photos.length && !this.unclassifiedFaces
             }
         }

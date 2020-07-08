@@ -1,5 +1,5 @@
 <template>
-    <div v-if="loaded">
+    <v-card v-if="loaded" class="pa-3 ma-3">
         <v-row>
             <v-col cols="12" md="4" class="d-flex justify-center align-center">
                 <v-avatar :color="profile | color" size="128">
@@ -64,9 +64,9 @@
                 </v-row>
             </v-col>
         </v-row>
-        <v-divider></v-divider>
+        <v-divider v-if="profile.phone != null || profile.email != null"></v-divider>
         <v-row>
-            <v-col cols="12" md="4">
+            <v-col cols="12" md="4" class="body-2 text-center">
             </v-col>
             <v-col cols="12" md="8">
                 <v-row v-if="profile.phone != null">
@@ -79,7 +79,17 @@
                 </v-row>
             </v-col>
         </v-row>
-    </div>
+        <v-divider></v-divider>
+        <div class="headline text-center py-5">Zdjęcia ({{ profile.photos.length }})</div>
+        <v-row>
+            <v-col cols="12" md="3" v-for="image in profile.photos" :key="image._id">
+                <v-card :to="'/app/photo/'+image._id" outlined min-width="200">
+                    <v-img  :src="image.url | api" contain max-height="200"></v-img>
+                </v-card>
+                
+            </v-col>
+        </v-row>
+    </v-card>
 </template>
 <script>
 import axios from 'axios'

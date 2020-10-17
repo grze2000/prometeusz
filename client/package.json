@@ -9,25 +9,25 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "core-js": "^3.4.3",
+    "core-js": "^3.6.5",
     "randomcolor": "^0.5.4",
-    "vue": "^2.6.10",
+    "vue": "^2.6.12",
     "vue-randomcolor": "^1.0.4",
-    "vue-router": "^3.1.6",
-    "vuetify": "^2.2.11"
+    "vue-router": "^3.4.7",
+    "vuetify": "^2.3.14"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.1.0",
-    "@vue/cli-plugin-eslint": "^4.1.0",
-    "@vue/cli-service": "^4.1.0",
-    "babel-eslint": "^10.0.3",
+    "@vue/cli-plugin-babel": "^4.5.7",
+    "@vue/cli-plugin-eslint": "^4.5.7",
+    "@vue/cli-service": "^4.5.7",
+    "babel-eslint": "^10.1.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "sass": "^1.19.0",
+    "sass": "^1.27.0",
     "sass-loader": "^8.0.0",
-    "vue-cli-plugin-vuetify": "~2.0.5",
-    "vue-template-compiler": "^2.6.10",
-    "vuetify-loader": "^1.3.0"
+    "vue-cli-plugin-vuetify": "^2.0.7",
+    "vue-template-compiler": "^2.6.12",
+    "vuetify-loader": "^1.6.0"
   },
   "eslintConfig": {
     "root": true,

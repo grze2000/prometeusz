@@ -55,10 +55,10 @@ export default {
             loading: false
         }
     },
-    crated() {
-        const token = localStorage('token');
+    created() {
+        const token = localStorage.getItem('token');
         if(token) {
-            this.$router.push('/dashboard');
+            this.$router.push('/app/dashboard');
         }
     },
     methods: {
@@ -69,7 +69,7 @@ export default {
                 axios.post(`${process.env.VUE_APP_API_URL}/login`, this.formData).then(response => {
                     localStorage.setItem('token', response.data.token);
                     this.loading = false;
-                    this.$router.push('/dashboard');
+                    this.$router.push('/app/dashboard');
                     
                 }).catch(err => {
                     this.snackbar.message = typeof err.response !== 'undefined' ? err.response.data.message : err.message;

@@ -5,6 +5,7 @@ import AddPhoto from '../components/AddPhoto.vue';
 import Dashboard from '../components/Dashboard.vue';
 import PhotoView from '../components/PhotoView.vue';
 import ClassifyFaces from '../components/ClassifyFaces.vue';
+import Data from '../components/Data.vue';
 
 export default [
     {
@@ -34,6 +35,10 @@ export default [
     {
         path: 'classify-faces',
         component: ClassifyFaces
+    },
+    {
+        path: 'data',
+        component: Data
     },
     {
         path: '*',

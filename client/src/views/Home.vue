@@ -38,6 +38,9 @@
                     <v-list-item-title>Dodaj zdjęcie</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
+            <v-list-item dense to="/app/data">
+                <v-list-item-title>Import/Eksport</v-list-item-title>
+            </v-list-item>
         </v-navigation-drawer>
         <v-main class="fill-height">
             <router-view></router-view>

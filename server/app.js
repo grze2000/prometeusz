@@ -11,6 +11,7 @@ const loginController = require('./controllers/loginController');
 const personController = require('./controllers/personController');
 const photoController = require('./controllers/photoController');
 const faceController = require('./controllers/faceController');
+const dataController = require('./controllers/dataController');
 
 mongoose.connect(process.env.MONGODB_URI, {useUnifiedTopology: true, useNewUrlParser: true}).then(() => {
     console.log('Conected to database');
@@ -39,7 +40,12 @@ app.delete('/photos/:id', passport.authenticate('jwt', {session: false}), photoC
 app.post('/analyze/:id', photoController.analyzePhoto);
 
 app.get('/faces', passport.authenticate('jwt', {session: false}), faceController.getFaces);
-app.post('/faces/:id', passport.authenticate('jwt', {session: false}), faceController.classifyFace)
+app.post('/faces/:id', passport.authenticate('jwt', {session: false}), faceController.classifyFace);
+
+app.get('/import/data', passport.authenticate('jwt', {session: false}), dataController.importData);
+app.get('/import/photos', passport.authenticate('jwt', {session: false}), dataController.importPhotos);
+app.get('/export/data', passport.authenticate('jwt', {session: false}), dataController.exportData);
+app.get('/export/photos', passport.authenticate('jwt', {session: false}), dataController.exportPhotos);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on ${port}`));

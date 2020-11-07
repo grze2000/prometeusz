@@ -58,15 +58,15 @@ export default {
                     this.uploadProgress = event.loaded / event.total * 100;
                 }
             }).then(() => {
-                this.loading = false;
                 this.file = null;
                 console.log('ok');
                 
             }).catch(err => {
-                this.loading = false;
                 console.log(err);
                 // to-do snackbar        
-            })
+            }).finally(() => {
+                this.loading = false;
+            });
         }
     }
 }

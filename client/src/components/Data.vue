@@ -20,12 +20,12 @@
             <v-stepper-content step="2">
                 <v-file-input
                     label="Wybierz plik"
-                    v-model="file"
+                    v-model="files"
                     :loading="loading.uploadFile"
-                    multiple
-                    accept=".csv"
+                    :multiple="action === 2"
+                    :accept="action === 2 ? '.csv' : '.zip'"
                 ></v-file-input>
-                <v-btn class="blue" dark>Importuj</v-btn>&nbsp;
+                <v-btn class="blue" @click="uploadFiles" dark>Importuj</v-btn>&nbsp;
                 <v-btn class="grey lighten-3" @click="step=1">Wstecz</v-btn>
             </v-stepper-content>
             <v-stepper-content step="3" class="text-center py-10">
@@ -33,11 +33,11 @@
                     <v-progress-circular indeterminate color="blue" size="50"></v-progress-circular>
                     <div class="text-h6 py-3">Wykonywanie operacji...</div>
                 </template>
-                <template v-else-if="actions.indexOf(action) === 0 || actions.indexOf(action) === 1">
+                <template v-else-if="action === 0 || action === 1">
                     <div class="py-2">Zakończono eksport. Możej teraz pobrać utworzone pliki:</div>
                     <v-btn :href="exportFileUrl" class="blue" dark>Pobierz</v-btn>
                 </template>
-                <template v-else-if="actions.indexOf(action) === 2 || actions.indexOf(action) === 3">
+                <template v-else-if="action === 2 || action === 3">
                     <div class="py-2">Zakończono import. Możesz już przeglądać zaimportowane dane w bazie</div>
                     <v-btn href="/app/serach" class="blue" dark>Szukaj w bazie</v-btn>
                 </template>
@@ -57,14 +57,14 @@ export default {
                 uploadFile: false
             },
             actions: [
-                'Eksport danych',
-                'Eksport zdjęć',
-                'Import danych',
-                'Import zdjęć'
+                { value: 0, text: 'Eksport danych'},
+                { value: 1, text: 'Eksport zdjęć'},
+                { value: 2, text: 'Import danych'},
+                { value: 3, text: 'Import zdjęć'}
             ],
-            action: 'Eksport danych',
+            action: 0,
             step: 1,
-            file: null,
+            files: null,
             waitingForRespose: false,
             exportFileUrl: ''
         }
@@ -79,8 +79,7 @@ export default {
             });
         },
         nextStep() {
-            const actionNr = this.actions.indexOf(this.action);
-            switch(actionNr) {
+            switch(this.action) {
                 case 0:
                     this.exportData();
                     this.step = 3;
@@ -95,6 +94,31 @@ export default {
                     this.step = 2;
                     break;
             }
+        },
+        uploadFiles() {
+            if(!this.files) {
+                // snackbar
+                return alert('Wybierz plik');
+            }
+            this.loading.uploadFile = true;
+            let formData = new FormData();
+            this.files.forEach(file => {
+                formData.append('files', file);
+            });
+            axios.post(`${process.env.VUE_APP_API_URL}/import/${this.action === 2 ? 'data' : 'photos'}`, formData, {
+                headers: {
+                    'Content-Type': 'undefined'
+                }
+            }).then(() => {
+                this.files = null;
+                console.log('ok');
+                
+            }).catch(err => {
+                console.log(err.response.data.message || err.message);
+                // to-do snackbar        
+            }).finally(() => {
+                this.loading.uploadFile = false;
+            });
         }
     }
 }

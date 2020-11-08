@@ -70,9 +70,9 @@ export default {
         }
     },
     methods: {
-        exportData() {
+        exportData(type) {
             this.waitingForRespose = true;
-            axios.get(`${process.env.VUE_APP_API_URL}/export/data`).then(res => {
+            axios.get(`${process.env.VUE_APP_API_URL}/export/${type}`).then(res => {
                 this.exportFileUrl = `${process.env.VUE_APP_API_URL}/${res.data.file}`;
             }).finally(() => {
                 this.waitingForRespose = false;
@@ -81,10 +81,11 @@ export default {
         nextStep() {
             switch(this.action) {
                 case 0:
-                    this.exportData();
+                    this.exportData('data');
                     this.step = 3;
                     break;
                 case 1:
+                    this.exportData('photos');
                     this.step = 3;
                     break;
                 case 2:

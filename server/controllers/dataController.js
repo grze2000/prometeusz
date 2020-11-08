@@ -87,5 +87,9 @@ exports.exportData = (req, res) => {
 }
 
 exports.exportPhotos = (req, res) => {
-
+    const zip = new AdmZip();
+    zip.addLocalFolder('files/photos', 'photos');
+    zip.addLocalFolder('files/faces', 'faces');
+    zip.writeZip('files/export/files.zip');
+    res.json({file: 'files/export/files.zip'});
 }

@@ -1,6 +1,7 @@
 const Json2csvParser = require('json2csv').Parser;
 const csv = require('csvtojson');
 const AdmZip = require('adm-zip');
+const fs = require('fs-extra');
 
 const Face = require('../models/Face');
 const Info = require('../models/Info');
@@ -38,6 +39,13 @@ const exportCollection = (collection, name) => {
     });
 }
 
+const copyDir = dir => {
+    if(!fs.existsSync(`files/tmp/${dir}`)) {
+        throw new Error(`${dir} nie istnieje!`);
+    }
+    fs.copySync(`files/tmp/${dir}`, `files/${dir}`);
+}
+
 exports.importData = [validateFiles(/csv/), (req, res) => {
     const files = Array.isArray(req.files.files) ? req.files.files : [req.files.files];
     files.forEach(file => {
@@ -58,12 +66,21 @@ exports.importData = [validateFiles(/csv/), (req, res) => {
 }]
 
 exports.importPhotos = [validateFiles(/zip/), (req, res) => {
-    /*req.files.files.mv(`./files/tmp/${req.files.files.name}`, err => {
+    req.files.files.mv(`files/tmp/import.zip`, err => {
         if(err) {
             return res.status(500).json({message: 'Nie można zapisać pliku!'});
         }
-        res.sendStatus(201);
-    });*/
+        try {
+            const zip = AdmZip('files/tmp/import.zip');
+            zip.extractAllTo('files/tmp/', true);
+            copyDir('photos');
+            copyDir('faces');
+            res.sendStatus(201);
+        } catch(err) {
+            res.status(500).json({message: 'Nie można zaimportować danych'})
+        }
+        fs.emptyDirSync('files/tmp');        
+    });
 }]
 
 exports.exportData = (req, res) => {

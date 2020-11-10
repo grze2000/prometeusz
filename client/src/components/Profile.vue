@@ -93,6 +93,7 @@
 </template>
 <script>
 import axios from 'axios'
+import eventBus from '../eventBus';
 
 export default {
     name: 'Profile',
@@ -107,7 +108,7 @@ export default {
             this.profile = person.data;
             this.loaded = true;
         }).catch(() => {
-            // to-do snackbar
+            eventBus.$emit('showSnackbar', 'Błąd! Nie udało się załadować danych');
         })
     }
 }

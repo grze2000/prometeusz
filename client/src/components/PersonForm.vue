@@ -182,6 +182,7 @@
 
 <script>
 import axios from 'axios';
+import eventBus from '../eventBus';
 
 export default {
     name: 'PersonForm',
@@ -222,8 +223,7 @@ export default {
             axios.post(`${process.env.VUE_APP_API_URL}/people`, this.form).then(person => {
                 this.$router.push('/app/profile/'+person._id);
             }).catch(err => {
-                // to-do snackbar
-                console.error(err);
+                eventBus.$emit('showSnackbar', typeof err.response !== 'undefined' ? err.response.data.message : err.message);
             })
         }
     }

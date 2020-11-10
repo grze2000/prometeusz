@@ -32,12 +32,12 @@
                 </v-card>
             </v-col>
         </v-row>
-        <v-snackbar v-model="snackbar.show">{{ snackbar.message }}</v-snackbar>
     </v-container>
 </template>
 
 <script>
 import axios from 'axios'
+import eventBus from '../eventBus';
 
 export default {
     name: 'Login',
@@ -48,10 +48,6 @@ export default {
                 password: ''
             },
             valid: false,
-            snackbar: {
-                show: false,
-                message: ''
-            },
             loading: false
         }
     },
@@ -68,12 +64,10 @@ export default {
             if(this.valid) {
                 axios.post(`${process.env.VUE_APP_API_URL}/login`, this.formData).then(response => {
                     localStorage.setItem('token', response.data.token);
-                    this.loading = false;
                     this.$router.push('/app/dashboard');
-                    
                 }).catch(err => {
-                    this.snackbar.message = typeof err.response !== 'undefined' ? err.response.data.message : err.message;
-                    this.snackbar.show = true;
+                    eventBus.$emit('showSnackbar', typeof err.response !== 'undefined' ? err.response.data.message : err.message);
+                }).finally(() => {
                     this.loading = false;
                 });
             }

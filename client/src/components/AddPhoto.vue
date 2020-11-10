@@ -30,6 +30,7 @@
 
 <script>
 import axios from 'axios';
+import eventBus from '../eventBus';
 
 export default {
     name: 'AddPhoto',
@@ -43,8 +44,7 @@ export default {
     methods: {
         upload() {
             if(this.file == null) {
-                //to-do snackbar
-                console.log('Wybierz plik');
+                eventBus.$emit('showSnackbar', 'Nie wybrano pliku');
                 return;
             }
             this.loading = true;
@@ -59,11 +59,8 @@ export default {
                 }
             }).then(() => {
                 this.file = null;
-                console.log('ok');
-                
             }).catch(err => {
-                console.log(err);
-                // to-do snackbar        
+                eventBus.$emit('showSnackbar', typeof err.response !== 'undefined' ? err.response.data.message : err.message);     
             }).finally(() => {
                 this.loading = false;
             });

@@ -16,6 +16,7 @@
 
 <script>
 import axios from 'axios';
+import eventBus from '../eventBus';
 
 export default {
     name: 'Dashboard',
@@ -25,18 +26,15 @@ export default {
             unclassifiedFaces: 0
         }
     },
-    created() {        
-        axios.get(`${process.env.VUE_APP_API_URL}/photos2?analyzed=false`).then(photos => {
-            this.photos = photos.data;
-            
-        }).catch(err => {
-            console.log(err.message);
-            
-        });
-        axios.get(`${process.env.VUE_APP_API_URL}/faces?unclassified=true`).then(faces => {
-            this.unclassifiedFaces = faces.data.length;
-        }).catch(err => {
-            console.log(err.message);
+    created() {
+        Promise.all([
+            axios.get(`${process.env.VUE_APP_API_URL}/photos2?analyzed=false`),
+            axios.get(`${process.env.VUE_APP_API_URL}/faces?unclassified=true`)
+        ]).then(values => {
+            this.photos = values[0].data;
+            this.unclassifiedFaces = values[1].data.length;
+        }).catch(() => {
+            eventBus.$emit('showSnackbar', 'Błąd! Nie udało się wczytać danych');
         });
     },
     computed: {

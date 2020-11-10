@@ -25,6 +25,7 @@
 
 <script>
 import axios from 'axios';
+import eventBus from '../eventBus';
 
 export default {
     name: 'ClassifyFaces',
@@ -43,8 +44,8 @@ export default {
         ]).then(axios.spread((...responses) => {
             this.faces = responses[0].data;
             this.people = responses[1].data;
-        })).catch(err => {
-            console.log(err);
+        })).catch(() => {
+            eventBus.$emit('showSnackbar', 'Błąd! Nie udało się wczytać danych');
         });
     },
     methods: {
@@ -58,10 +59,10 @@ export default {
                     const index = this.faces.findIndex(x => x._id == faceID);
                     this.faces.splice(index, 1);
                 }).catch(err => {
-                    console.log(err.response.data.message);
+                    eventBus.$emit('showSnackbar', typeof err.response !== 'undefined' ? err.response.data.message : err.message);
                 });
             } else {
-                console.log('Nie wybrano osoby');
+                eventBus.$emit('showSnackbar', 'Nie wybrano osoby');
             }
         }
     }

@@ -26,6 +26,7 @@
 
 <script>
 import axios from 'axios';
+import eventBus from '../eventBus';
 
 export default {
     name: 'PhotoView',
@@ -40,8 +41,8 @@ export default {
         axios.get(`${process.env.VUE_APP_API_URL}/photos/${this.$route.params.id}`).then(photo => {
             this.photo = photo.data;
             this.loaded = true;
-        }).catch(err => {
-            console.log(err);
+        }).catch(() => {
+            eventBus.$emit('showSnackbar', 'Błąd! Nie udało się wczytać danych');
         });
     },
     methods: {
@@ -50,7 +51,9 @@ export default {
             axios.post(`${process.env.VUE_APP_API_URL}/analyze/${this.photo._id}`).then(() => {
                 this.analyzing = false;
                 this.photo.analyzed = true;
-            });
+            }).catch(err => {
+                eventBus.$emit('showSnackbar', typeof err.response !== 'undefined' ? err.response.data.message : err.message);
+            })
         }
     }
 }

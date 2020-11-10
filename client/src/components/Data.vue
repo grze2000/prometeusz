@@ -48,6 +48,7 @@
 
 <script>
 import axios from 'axios'
+import eventBus from '../eventBus';
 
 export default {
     name: 'Data',
@@ -74,6 +75,9 @@ export default {
             this.waitingForRespose = true;
             axios.get(`${process.env.VUE_APP_API_URL}/export/${type}`).then(res => {
                 this.exportFileUrl = `${process.env.VUE_APP_API_URL}/${res.data.file}`;
+            }).catch(() => {
+                eventBus.$emit('showSnackbar', 'Błąd! Nie udało się wyeksportować danych');
+                this.step = 1;
             }).finally(() => {
                 this.waitingForRespose = false;
             });
@@ -86,7 +90,6 @@ export default {
                     break;
                 case 1:
                     this.exportData('photos');
-                    this.step = 3;
                     break;
                 case 2:
                     this.step = 2;
@@ -98,8 +101,7 @@ export default {
         },
         uploadFiles() {
             if(!this.files) {
-                // snackbar
-                return alert('Wybierz plik');
+                return eventBus.$emit('showSnackbar', 'Nie wybrano pliku');
             }
             this.loading.uploadFile = true;
             let formData = new FormData();
@@ -112,11 +114,8 @@ export default {
                 }
             }).then(() => {
                 this.files = null;
-                console.log('ok');
-                
             }).catch(err => {
-                console.log(err.response.data.message || err.message);
-                // to-do snackbar        
+                eventBus.$emit('showSnackbar', typeof err.response !== 'undefined' ? err.response.data.message : err.message);
             }).finally(() => {
                 this.loading.uploadFile = false;
             });

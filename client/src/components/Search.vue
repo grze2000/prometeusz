@@ -27,6 +27,7 @@
 
 <script>
 import axios from 'axios'
+import eventBus from '../eventBus';
 
 export default {
     name: 'Search',
@@ -40,7 +41,8 @@ export default {
         axios.get(`${process.env.VUE_APP_API_URL}/people`).then(data => {
             this.people = data.data;
         }).catch(() => {
-            //snackbar
+            console.log('błąd');
+            eventBus.$emit('showSnackbar', 'Błąd! Nie udało się wczytać danych!');
         });
     },
     mounted() {

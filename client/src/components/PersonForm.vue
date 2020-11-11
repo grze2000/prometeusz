@@ -1,183 +1,179 @@
 <template>
-    <form action="">
-        <v-expansion-panels
-            accordion
-            flat
-        >
-            <v-expansion-panel>
-                <v-expansion-panel-header>Podstawowe dane</v-expansion-panel-header>
-                <v-expansion-panel-content>
-                    <v-row>
-                        <v-col cols="12" md="6">
+    <v-stepper vertical v-model="step" class="ma-3">
+        <v-stepper-step step="1" editable>Podstawowe dane</v-stepper-step>
+        <v-stepper-content step="1">
+            <v-row>
+                <v-col cols="12" md="6">
+                    <v-text-field
+                        label="Imię"
+                        outlined
+                        required
+                        v-model="form.firstname"
+                    ></v-text-field>
+                </v-col>
+                <v-col cols="12" md="6">
+                    <v-text-field
+                        label="Nazwisko"
+                        outlined
+                        required
+                        v-model="form.lastname"
+                    ></v-text-field>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="12" md="6">
+                    <v-text-field
+                        label="Pseudonim"
+                        outlined
+                        v-model="form.nickname"
+                    ></v-text-field>
+                </v-col>
+                <v-col cols="12" md="6">
+                    <v-select
+                        :items="[{text: 'Mężczyzna', value: 'mężczyzna'}, {text: 'Kobieta', value: 'kobieta'}]"
+                        label="Płeć"
+                        outlined
+                        required
+                        v-model="form.gender"
+                    ></v-select>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="12" md="6">
+                    <v-menu
+                        ref="menu"
+                        v-model="menu"
+                        :close-on-content-click="false"
+                        :return-value.sync="form.birthday"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="290px"
+                    >
+                        <template v-slot:activator="{ on, attrs }">
                             <v-text-field
-                                label="Imię"
+                                v-model="form.birthday"
+                                label="Data urodzenia"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
                                 outlined
-                                required
-                                v-model="form.firstname"
                             ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" md="6">
-                            <v-text-field
-                                label="Nazwisko"
-                                outlined
-                                required
-                                v-model="form.lastname"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" md="6">
-                            <v-text-field
-                                label="Pseudonim"
-                                outlined
-                                v-model="form.nickname"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" md="6">
-                            <v-select
-                                :items="[{text: 'Mężczyzna', value: 'mężczyzna'}, {text: 'Kobieta', value: 'kobieta'}]"
-                                label="Płeć"
-                                outlined
-                                required
-                                v-model="form.gender"
-                            ></v-select>
-                        </v-col>
-                        <v-col cols="12" md="6">
-                            <v-menu
-                                ref="menu"
-                                v-model="menu"
-                                :close-on-content-click="false"
-                                :return-value.sync="form.birthday"
-                                transition="scale-transition"
-                                offset-y
-                                min-width="290px"
-                            >
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-text-field
-                                        v-model="form.birthday"
-                                        label="Data urodzenia"
-                                        readonly
-                                        v-bind="attrs"
-                                        v-on="on"
-                                        outlined
-                                    ></v-text-field>
-                                </template>
-                                <v-date-picker v-model="form.birthday" no-title scrollable>
-                                    <v-spacer></v-spacer>
-                                    <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                                    <v-btn text color="primary" @click="$refs.menu.save(form.birthday)">OK</v-btn>
-                                </v-date-picker>
-                            </v-menu>
-                        </v-col>
-                        <v-col cols="12" md="6">
-                            <v-select
-                                outlined
-                                label="Stan cywilny"
-                                v-model="form.maritalStatus"
-                                :items="form.gender != null ? maritalStatus[form.gender] : []"
-                                no-data-text="Najpierw wybierz płeć"
-                            ></v-select>
-                        </v-col>
-                    </v-row>
-                </v-expansion-panel-content>
-            </v-expansion-panel>
-            <v-expansion-panel>
-                <v-expansion-panel-header>Adres</v-expansion-panel-header>
-                <v-expansion-panel-content>
-                    <v-row>
-                        <v-col cols="12" md="6">
-                            <v-text-field
-                                label="Miasto rodzinne"
-                                outlined
-                                v-model="form.address.hometown"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" md="6">
-                            <v-text-field
-                                label="Miasto"
-                                outlined
-                                v-model="form.address.city"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" md="6">
-                            <v-text-field
-                                label="Kod pocztowy"
-                                outlined
-                                v-model="form.address.postalCode"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" md="6">
-                            <v-text-field
-                                label="Ulica"
-                                outlined
-                                v-model="form.address.streetName"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" md="6">
-                            <v-text-field
-                                label="Numer budynku"
-                                outlined
-                                v-model="form.address.buildingNumber"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" md="6">
-                            <v-autocomplete
-                                :items="countries"
-                                label="Kraj"
-                                outlined
-                                v-model="form.address.country"
-                            ></v-autocomplete>
-                        </v-col>
-                    </v-row>
-                </v-expansion-panel-content>
-            </v-expansion-panel>
-            <v-expansion-panel>
-                <v-expansion-panel-header>Kontakt</v-expansion-panel-header>
-                <v-expansion-panel-content>
-                    <v-row>
-                        <v-col cols="12" md="6">
-                            <v-text-field
-                                label="Telefon"
-                                outlined
-                                v-model="form.phone"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" md="6">
-                            <v-text-field
-                                label="Email"
-                                type="email"
-                                outlined
-                                v-model="form.email"
-                            ></v-text-field>
-                        </v-col>
-                    </v-row>
-                </v-expansion-panel-content>
-            </v-expansion-panel>
-            <v-expansion-panel>
-                <v-expansion-panel-header>Inne</v-expansion-panel-header>
-                <v-expansion-panel-content>
-                    <v-row>
-                        <v-col cols="12" md="6">
-                            <v-text-field
-                                label="Strona internetowa"
-                                outlined
-                                v-model="form.website"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" md="6">
-                            <v-text-field
-                                label="Facebook ID"
-                                outlined
-                                v-model="form.facebookID"
-                            ></v-text-field>
-                        </v-col>
-                    </v-row>
-                </v-expansion-panel-content>
-            </v-expansion-panel>
-        </v-expansion-panels>
-        <v-row class="px-3 pt-5">
-            <v-spacer></v-spacer>
-            <v-btn class="success" @click="submit()">Dodaj</v-btn>
-        </v-row>
-    </form>
+                        </template>
+                        <v-date-picker v-model="form.birthday" no-title scrollable>
+                            <v-spacer></v-spacer>
+                            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+                            <v-btn text color="primary" @click="$refs.menu.save(form.birthday)">OK</v-btn>
+                        </v-date-picker>
+                    </v-menu>
+                </v-col>
+                <v-col cols="12" md="6">
+                    <v-select
+                        outlined
+                        label="Stan cywilny"
+                        v-model="form.maritalStatus"
+                        :items="form.gender != null ? maritalStatus[form.gender] : []"
+                        no-data-text="Najpierw wybierz płeć"
+                    ></v-select>
+                </v-col>
+            </v-row>
+        </v-stepper-content>
+        <v-stepper-step step="2" editable>Adres</v-stepper-step>
+        <v-stepper-content step="2">
+            <v-row>
+                <v-col cols="12" md="6">
+                    <v-text-field
+                        label="Miasto rodzinne"
+                        outlined
+                        v-model="form.address.hometown"
+                    ></v-text-field>
+                </v-col>
+                <v-col cols="12" md="6">
+                    <v-text-field
+                        label="Miasto"
+                        outlined
+                        v-model="form.address.city"
+                    ></v-text-field>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="12" md="6">
+                    <v-text-field
+                        label="Kod pocztowy"
+                        outlined
+                        v-model="form.address.postalCode"
+                    ></v-text-field>
+                </v-col>
+                <v-col cols="12" md="6">
+                    <v-text-field
+                        label="Ulica"
+                        outlined
+                        v-model="form.address.streetName"
+                    ></v-text-field>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="12" md="6">
+                    <v-text-field
+                        label="Numer budynku"
+                        outlined
+                        v-model="form.address.buildingNumber"
+                    ></v-text-field>
+                </v-col>
+                <v-col cols="12" md="6">
+                    <v-autocomplete
+                        :items="countries"
+                        label="Kraj"
+                        outlined
+                        v-model="form.address.country"
+                    ></v-autocomplete>
+                </v-col>
+            </v-row>
+        </v-stepper-content>
+        <v-stepper-step step="3" editable>Kontakt</v-stepper-step>
+        <v-stepper-content step="3">
+            <v-row>
+                <v-col cols="12" md="6">
+                    <v-text-field
+                        label="Telefon"
+                        outlined
+                        v-model="form.phone"
+                    ></v-text-field>
+                </v-col>
+                <v-col cols="12" md="6">
+                    <v-text-field
+                        label="Email"
+                        type="email"
+                        outlined
+                        v-model="form.email"
+                    ></v-text-field>
+                </v-col>
+            </v-row>
+        </v-stepper-content>
+        <v-stepper-step step="4" editable>Inne</v-stepper-step>
+        <v-stepper-content step="4">
+            <v-row>
+                <v-col cols="12" md="6">
+                    <v-text-field
+                        label="Strona internetowa"
+                        outlined
+                        v-model="form.website"
+                    ></v-text-field>
+                </v-col>
+                <v-col cols="12" md="6">
+                    <v-text-field
+                        label="Facebook ID"
+                        outlined
+                        v-model="form.facebookID"
+                    ></v-text-field>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col align="end">
+                    <v-btn class="green" dark @click="submit">Dodaj</v-btn>
+                </v-col>
+            </v-row>
+        </v-stepper-content>
+    </v-stepper>
 </template>
 
 <script>
@@ -213,7 +209,8 @@ export default {
                 phone: null,
                 email: null
             },
-            menu: null
+            menu: null,
+            step: 1
         }
     },
     methods: {

@@ -1,7 +1,5 @@
 <template>
-    <v-card class="pa-3 ma-3">
-        <PersonForm></PersonForm>
-    </v-card>
+    <PersonForm></PersonForm>
 </template>
 
 <script>

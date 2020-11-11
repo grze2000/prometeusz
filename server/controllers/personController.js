@@ -27,7 +27,7 @@ exports.addPerson = (req, res) => {
             if(err) {
                 res.status(500).json({message: 'Błąd bazy danych: '+err.message});
             } else {
-                res.sendStatus(201);
+                res.json(person.toObject());
             }
         })
     } else {
